@@ -1,0 +1,9 @@
+variable "launch_template_ami" {}
+variable "launch_template_instance_type" {}
+variable "vpc_id" {}
+variable "private_subnet_ids" {}
+variable "external_alb_target_group_arn" {}
+variable "external_alb_sg_id" {}
+variable "internal_nlb_dns_name" {}
+variable "ngw" {}
+variable "private_nlb" {}
