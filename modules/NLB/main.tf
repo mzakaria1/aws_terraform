@@ -66,7 +66,7 @@ resource "aws_lb" "private_nlb" {
   enable_deletion_protection = false
 
   tags = {
-    Name = "${terraform.workspace}-private-alb-database-zakaria"
+    Name = "${terraform.workspace}-private-alb-db-zakaria"
   }
 }
 

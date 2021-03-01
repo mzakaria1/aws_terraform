@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+    tools {
+        terraform 'Terraform'
+    }
+
+    stages {
+        
+        stage('Terraform Version') {
+            steps {
+                sh 'terraform --version'
+            }
+        }
+        
+        stage('Terraform Init') {
+            when {
+                expression {
+                    params.CHANGE_STATE == "apply";
+                }
+            }
+
+            steps {
+                sh 'terraform init'
+            }
+        }
+        
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan -var-file ./config/dev.tfvars'
+            }
+        }
+        
+        stage('Terraform Apply') {
+            when {
+                expression {
+                    params.CHANGE_STATE == "apply";
+                }
+            }
+            steps {
+                sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve'
+            }
+        }
+        
+        stage('Terraform destroy') {
+            when {
+                expression {
+                    params.CHANGE_STATE == "destroy";
+                }
+            }
+            
+            steps {
+                sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve'
+            }
+        }
+    }
+}
