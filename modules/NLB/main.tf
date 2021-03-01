@@ -27,8 +27,6 @@ resource "aws_security_group_rule" "nlb_sg_with_wordpress_ec2" {
 }
 
 
-
-
 resource "aws_lb_target_group" "nlb_target_group" {
   name     = "${terraform.workspace}-nlb-tg-zakaria"
   port     = 3306
@@ -59,7 +57,7 @@ resource "aws_lb_target_group_attachment" "nlb_target_group_attachment" {
 
 
 resource "aws_lb" "private_nlb" {
-  name               = "${terraform.workspace}-private-alb-database-zakaria"
+  name               = "${terraform.workspace}-private-alb-db-zakaria"
   internal           = true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.nlb_sg.id]
