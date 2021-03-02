@@ -39,9 +39,6 @@ pipeline {
                 branch 'master'
             }
             steps {
-                script {
-
-                }
                 sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve'
             }
         }
