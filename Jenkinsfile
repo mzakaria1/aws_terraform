@@ -9,6 +9,7 @@ pipeline {
         stage('Terraform Version') {
             steps {
                 sh 'terraform --version'
+                sh 'echo "${GIT_BRANCH}"'
             }
         }
         
@@ -21,7 +22,7 @@ pipeline {
 
             steps {
                 script {
-                    if ($.ref == 'refs/heads/master'){
+                    if (env.BRANCH_NAME == 'master'){
                         sh 'terraform init'
                     }
                     else {
