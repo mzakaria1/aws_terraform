@@ -18,9 +18,6 @@ pipeline {
             //         $.ref == "ref/head/master" ;
             //     }
             // }
-            // when {
-            //     env.BRANCH_NAME ==  'master'
-            // }
 
             steps {
                 script {
