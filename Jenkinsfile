@@ -36,6 +36,24 @@ pipeline {
                 sh 'terraform init'
             }
         }
+
+        stage('Terraform workspace') {
+            when {
+                expression{
+                    params.buildState == "apply"
+                }
+            }
+
+            steps {
+                script {
+                    if ("${GIT_BRANCH}" == 'origin/master'){
+                        sh 'terraform workspace select prod || terraform workspace new prod'
+                    }else {
+                        sh 'terraform workspace select prod || terraform workspace new prod'
+                    }
+                }
+            }
+        }
         
         stage('Terraform Plan') {
             steps {
