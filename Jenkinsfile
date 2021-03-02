@@ -24,7 +24,7 @@ pipeline {
 
             steps {
                 script {
-                    if env.BRANCH_NAME == 'master'{
+                    if (env.BRANCH_NAME == 'master'){
                         sh 'terraform init'
                     }
                 }
