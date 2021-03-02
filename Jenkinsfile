@@ -3,6 +3,13 @@ pipeline {
     tools {
         terraform 'Terraform'
     }
+    parameters {
+        choice(
+            choices: 'dev\nprod\n',
+            description: 'Name of Environment',
+            name: 'environment'
+        )
+    }
 
     stages {
         
@@ -15,44 +22,43 @@ pipeline {
         }
         
         stage('Terraform Init') {
-            // when {
-            //     expression {
-            //         $.ref == "ref/head/master" ;
-            //     }
-            // }
-
             steps {
-                script {
-                    if (env.BRANCH_NAME == 'master'){
-                        sh 'terraform init'
-                    }
-                    else {
-                        sh 'echo "not running"'
-                    }
-                }
+                sh 'terraform init'
             }
         }
         
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -var-file ./config/dev.tfvars'
+                script {
+                    if (${GIT_BRANCH} == 'origin/master'){
+                        sh 'terraform plan -var-file ./config/prod.tfvars'
+                    }
+                    else{
+                        sh 'terraform plan -var-file ./config/dev.tfvars'
+                    }
+                }
+
             }
         }
         
         stage('Terraform Apply') {
-            when {
-                branch 'master'
-            }
             steps {
-                sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve'
+                script {
+                    if (${GIT_BRANCH} == 'origin/master'){
+                        sh 'terraform apply -var-file ./config/prod.tfvars -auto-approve'
+                    }
+                    else{
+                        sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve'
+                    }
+                }
             }
         }
         
-        stage('Terraform destroy') {
+        // stage('Terraform destroy') {
             
-            steps {
-                sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve'
-            }
-        }
+        //     steps {
+        //         sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve'
+        //     }
+        // }
     }
 }
