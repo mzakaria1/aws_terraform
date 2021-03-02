@@ -18,9 +18,16 @@ pipeline {
             //         $.ref == "ref/head/master" ;
             //     }
             // }
+            // when {
+            //     env.BRANCH_NAME ==  'master'
+            // }
 
             steps {
-                sh 'terraform init'
+                script {
+                    if env.BRANCH_NAME == 'master'{
+                        sh 'terraform init'
+                    }
+                }
             }
         }
         
@@ -32,9 +39,12 @@ pipeline {
         
         stage('Terraform Apply') {
             when {
-                branch 'develop'
+                branch 'master'
             }
             steps {
+                script {
+
+                }
                 sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve'
             }
         }
