@@ -21,7 +21,7 @@ pipeline {
 
             steps {
                 script {
-                    if ($.ref == 'ref/heads/master'){
+                    if ($.ref == 'refs/heads/master'){
                         sh 'terraform init'
                     }
                     else {
