@@ -13,11 +13,11 @@ pipeline {
         }
         
         stage('Terraform Init') {
-            when {
-                expression {
-                    params.CHANGE_STATE == "apply";
-                }
-            }
+            // when {
+            //     expression {
+            //         $.ref == "ref/head/master" ;
+            //     }
+            // }
 
             steps {
                 sh 'terraform init'
@@ -32,9 +32,7 @@ pipeline {
         
         stage('Terraform Apply') {
             when {
-                expression {
-                    params.CHANGE_STATE == "apply";
-                }
+                branch 'develop'
             }
             steps {
                 sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve'
@@ -42,11 +40,6 @@ pipeline {
         }
         
         stage('Terraform destroy') {
-            when {
-                expression {
-                    params.CHANGE_STATE == "destroy";
-                }
-            }
             
             steps {
                 sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve'
