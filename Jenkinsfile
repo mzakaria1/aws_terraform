@@ -11,7 +11,7 @@ pipeline {
         )
         choice(
             choices: 'apply\ndestroy\n'
-            description: '',
+            description: 'The apply or destroy of terraform stack',
             name: 'buildState'
         )
     }
