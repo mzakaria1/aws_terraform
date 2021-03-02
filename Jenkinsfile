@@ -10,7 +10,7 @@ pipeline {
             name: 'environment'
         )
         choice(
-            choices: 'apply\ndestroy\n'
+            choices: 'apply\ndestroy\n',
             description: 'The apply or destroy of terraform stack',
             name: 'buildState'
         )
