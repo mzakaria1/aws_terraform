@@ -30,10 +30,10 @@ pipeline {
             steps {
                 script {
                     if (${GIT_BRANCH} == 'origin/master'){
-                        sh 'terraform plan -var-file ./config/prod.tfvars'
+                        sh 'terraform plan -var-file ./config/prod.tfvars';
                     }
                     else{
-                        sh 'terraform plan -var-file ./config/dev.tfvars'
+                        sh 'terraform plan -var-file ./config/dev.tfvars';
                     }
                 }
 
@@ -44,10 +44,10 @@ pipeline {
             steps {
                 script {
                     if (${GIT_BRANCH} == 'origin/master'){
-                        sh 'terraform apply -var-file ./config/prod.tfvars -auto-approve'
+                        sh 'terraform apply -var-file ./config/prod.tfvars -auto-approve';
                     }
                     else{
-                        sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve'
+                        sh 'terraform apply -var-file ./config/dev.tfvars -auto-approve';
                     }
                 }
             }
