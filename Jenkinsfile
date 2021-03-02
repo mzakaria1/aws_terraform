@@ -10,6 +10,7 @@ pipeline {
             steps {
                 sh 'terraform --version'
                 sh 'echo "${GIT_BRANCH}"'
+                sh 'echo "${env.BRANCH_NAME}"'
             }
         }
         
