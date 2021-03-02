@@ -15,8 +15,8 @@ pipeline {
         
         stage('Terraform Version') {
             steps {
-                sh 'terraform --version'
-                sh 'echo "${GIT_BRANCH}"'
+                sh 'terraform --version';
+                sh 'echo "${GIT_BRANCH}"';
             }
         }
         
@@ -29,7 +29,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 script {
-                    if (${GIT_BRANCH} == 'origin/master'){
+                    if ("${GIT_BRANCH}" == 'origin/master'){
                         sh 'terraform plan -var-file ./config/prod.tfvars';
                     }
                     else{
@@ -43,7 +43,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    if (${GIT_BRANCH} == 'origin/master'){
+                    if ("${GIT_BRANCH}" == 'origin/master'){
                         sh 'terraform apply -var-file ./config/prod.tfvars -auto-approve';
                     }
                     else{
