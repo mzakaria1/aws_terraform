@@ -9,6 +9,11 @@ pipeline {
             description: 'Name of Environment',
             name: 'environment'
         )
+        choice(
+            choices: 'apply\ndestroy\n'
+            description: '',
+            name: 'buildState'
+        )
     }
 
     stages {
@@ -21,6 +26,12 @@ pipeline {
         }
         
         stage('Terraform Init') {
+            when{
+                expression {
+                    params.buildState == "apply"
+                }
+            }
+
             steps {
                 sh 'terraform init'
             }
@@ -41,6 +52,12 @@ pipeline {
         }
         
         stage('Terraform Apply') {
+            when{
+                expression {
+                    params.buildState == "apply"
+                }
+            }
+
             steps {
                 script {
                     if ("${GIT_BRANCH}" == 'origin/master'){
@@ -53,11 +70,16 @@ pipeline {
             }
         }
         
-        // stage('Terraform destroy') {
+        stage('Terraform destroy') {
+            when{
+                expression {
+                    params.buildState == "destroy"
+                }
+            }
             
-        //     steps {
-        //         sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve'
-        //     }
-        // }
+            steps {
+                sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve'
+            }
+        }
     }
 }
