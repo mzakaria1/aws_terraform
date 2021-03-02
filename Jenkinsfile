@@ -24,6 +24,9 @@ pipeline {
                     if (env.BRANCH_NAME == 'master'){
                         sh 'terraform init'
                     }
+                    else {
+                        sh 'echo "not running"'
+                    }
                 }
             }
         }
