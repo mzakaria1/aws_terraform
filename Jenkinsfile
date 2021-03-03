@@ -1,22 +1,22 @@
-// def env = ""
+def env = ""
 
-// def defineEnvironment(){
-//     if("${GIT_BRANCH}" == 'origin/master'){
-//         env = "prod"
-//     }
-//     else {
-//         env = "dev"
-//     }
-// }
-
-def defineEnvironment1(){
+def defineEnvironment(){
     if("${GIT_BRANCH}" == 'origin/master'){
-        return "prod"
+        env = "prod"
     }
-    else if("${GIT_BRANCH}" ==  'origin/develop'){
-        return "dev"
+    else {
+        env = "dev"
     }
 }
+
+// def defineEnvironment1(){
+//     if("${GIT_BRANCH}" == 'origin/master'){
+//         return "prod"
+//     }
+//     else if("${GIT_BRANCH}" ==  'origin/develop'){
+//         return "dev"
+//     }
+// }
 
 pipeline {
     agent any
@@ -36,14 +36,10 @@ pipeline {
             name: 'buildState'
         )
     }
+    
 
-    scripted {
-        params.environement = defineEnvironment1()
-
-    }
 
     stages {
-        
         
         stage('Terraform Version') {
             steps {
@@ -74,9 +70,9 @@ pipeline {
             steps {
                 script {
                     if ("${GIT_BRANCH}" == 'origin/master'){
-                        sh 'terraform workspace select ${params.environement} || terraform workspace new ${params.environement}'
+                        sh 'terraform workspace select ${env} || terraform workspace new ${env}'
                     }else {
-                        sh 'terraform workspace select dev  || terraform workspace new dev'
+                        sh 'terraform workspace select ${env}  || terraform workspace new ${env}'
                     }
                 }
             }
@@ -86,10 +82,10 @@ pipeline {
             steps {
                 script {
                     if ("${GIT_BRANCH}" == 'origin/master'){
-                        sh 'terraform plan -var-file ./config/prod.tfvars';
+                        sh 'terraform plan -var-file ./config/${env}.tfvars';
                     }
                     else{
-                        sh 'terraform plan -var-file ./config/dev.tfvars';
+                        sh 'terraform plan -var-file ./config/${env}.tfvars';
                     }
                 }
 
