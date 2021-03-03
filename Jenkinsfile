@@ -5,7 +5,8 @@ def defineEnvironment(){
         sh 'echo "YEs yes yes"'
         sh 'echo "${GIT_BRANCH}"'
         sh 'echo "${env}"'
-        sh '${env} = "prod"'
+        "${env}" = "prod"
+        // sh '${env} = "prod"'
         sh 'echo ${env}'
     }
     else {
