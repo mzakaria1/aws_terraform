@@ -24,7 +24,7 @@ pipeline {
     tools {
         terraform 'Terraform'
     }
-    // defineEnvironment()
+    defineEnvironment()
     parameters {
         choice(
             choices: 'dev\nprod\n',
