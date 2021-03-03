@@ -37,7 +37,7 @@ pipeline {
         )
     }
 
-    script {
+    scripted {
         params.environement = defineEnvironment1()
 
     }
