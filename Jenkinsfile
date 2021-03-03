@@ -24,7 +24,7 @@ pipeline {
     tools {
         terraform 'Terraform'
     }
-    defineEnvironment()
+    
     parameters {
         choice(
             choices: 'dev\nprod\n',
@@ -44,6 +44,7 @@ pipeline {
         
         stage('Terraform Version') {
             steps {
+                defineEnvironment()
                 sh 'terraform --version';
                 sh 'echo "${GIT_BRANCH}"';
             }
