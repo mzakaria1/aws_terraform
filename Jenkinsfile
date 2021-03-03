@@ -2,6 +2,7 @@ def env = ""
 
 def defineEnvironment(){
     if("${GIT_BRANCH}" == 'origin/master'){
+        sh 'YEs yes yes'
         sh '"${GIT_BRANCH}"'
         sh '"${env}"'
         sh '"${env}" = prod'
@@ -48,6 +49,7 @@ pipeline {
                 script{
                     defineEnvironment()
                 }
+                
                 sh 'terraform --version';
                 sh 'echo "${GIT_BRANCH}"';
             }
