@@ -37,9 +37,13 @@ pipeline {
         )
     }
 
+    script {
+        params.environement = defineEnvironment1()
+
+    }
 
     stages {
-        params.environement = defineEnvironment1()
+        
         
         stage('Terraform Version') {
             steps {
