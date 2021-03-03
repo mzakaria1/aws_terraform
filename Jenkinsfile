@@ -1,9 +1,29 @@
+// def env = ""
+
+// def defineEnvironment(){
+//     if("${GIT_BRANCH}" == 'origin/master'){
+//         env = "prod"
+//     }
+//     else {
+//         env = "dev"
+//     }
+// }
+
+def defineEnvironment1(){
+    if("${GIT_BRANCH}" == 'origin/master'){
+        return "prod"
+    }
+    else if("${GIT_BRANCH}" ==  'origin/develop'){
+        return "dev"
+    }
+}
 
 pipeline {
     agent any
     tools {
         terraform 'Terraform'
     }
+    // defineEnvironment()
     parameters {
         choice(
             choices: 'dev\nprod\n',
@@ -17,7 +37,9 @@ pipeline {
         )
     }
 
+
     stages {
+        params.environement = defineEnvironment1()
         
         stage('Terraform Version') {
             steps {
@@ -48,9 +70,9 @@ pipeline {
             steps {
                 script {
                     if ("${GIT_BRANCH}" == 'origin/master'){
-                        sh 'terraform workspace select prod || terraform workspace new prod'
+                        sh 'terraform workspace select ${params.environement} || terraform workspace new ${params.environement}'
                     }else {
-                        sh 'terraform workspace select prod || terraform workspace new prod'
+                        sh 'terraform workspace select dev  || terraform workspace new dev'
                     }
                 }
             }
@@ -97,7 +119,14 @@ pipeline {
             }
             
             steps {
-                sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve'
+                script {
+                    if ("${GIT_BRANCH}" == 'origin/master'){
+                        sh 'terraform destroy -var-file ./config/prod.tfvars -auto-approve';
+                    }
+                    else{
+                        sh 'terraform destroy -var-file ./config/dev.tfvars -auto-approve';
+                    }
+                }
             }
         }
     }
