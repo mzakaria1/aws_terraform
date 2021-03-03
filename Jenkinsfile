@@ -3,7 +3,7 @@ def env = ""
 def defineEnvironment(){
     if("${GIT_BRANCH}" == 'origin/master'){
         sh "${env}"
-        "${env}" = "prod"
+        sh "${env} = prod"
     }
     else {
         env = "dev"
