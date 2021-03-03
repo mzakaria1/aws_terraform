@@ -2,7 +2,7 @@ def env = ""
 
 def defineEnvironment(){
     if("${GIT_BRANCH}" == 'origin/master'){
-        sh 'YEs yes yes'
+        sh 'echo "YEs yes yes"'
         sh '"${GIT_BRANCH}"'
         sh '"${env}"'
         sh '"${env}" = prod'
